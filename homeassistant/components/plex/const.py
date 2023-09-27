@@ -6,8 +6,8 @@ from homeassistant.const import Platform, __version__
 
 DOMAIN = "plex"
 NAME_FORMAT = "Plex ({})"
-COMMON_PLAYERS = ["Plex Web"]
-TRANSIENT_DEVICE_MODELS = ["Plex Web", "Plex for Sonos"]
+COMMON_PLAYERS: list[str] = []
+TRANSIENT_DEVICE_MODELS = ["Plex for Sonos"]
 
 DEFAULT_PORT = 32400
 DEFAULT_SSL = False
@@ -39,7 +39,6 @@ CONF_SERVER = "server"
 CONF_SERVER_IDENTIFIER = "server_id"
 CONF_USE_EPISODE_ART = "use_episode_art"
 CONF_IGNORE_NEW_SHARED_USERS = "ignore_new_shared_users"
-CONF_IGNORE_PLEX_WEB_CLIENTS = "ignore_plex_web_clients"
 CONF_MONITORED_USERS = "monitored_users"
 
 AUTH_CALLBACK_PATH = "/auth/plex/callback"

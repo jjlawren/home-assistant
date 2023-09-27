@@ -226,10 +226,10 @@ def media_200_fixture():
     return load_fixture("plex/media_200.xml")
 
 
-@pytest.fixture(name="player_plexweb_resources", scope="session")
-def player_plexweb_resources_fixture():
+@pytest.fixture(name="player_plexhtpc_resources", scope="session")
+def player_plexhtpc_resources_fixture():
     """Load resources payload for a Plex Web player and return it."""
-    return load_fixture("plex/player_plexweb_resources.xml")
+    return load_fixture("plex/player_plexhtpc_resources.xml")
 
 
 @pytest.fixture(name="playlists", scope="session")

@@ -22,7 +22,6 @@ from homeassistant.helpers.dispatcher import async_dispatcher_send
 
 from .const import (
     CONF_IGNORE_NEW_SHARED_USERS,
-    CONF_IGNORE_PLEX_WEB_CLIENTS,
     CONF_MONITORED_USERS,
     CONF_SERVER,
     CONF_SERVER_IDENTIFIER,
@@ -363,22 +362,6 @@ class PlexServer:
             available_clients[device.machineIdentifier].setdefault(
                 PLAYER_SOURCE, source
             )
-
-            if (
-                device.machineIdentifier not in ignored_clients
-                and self.option_ignore_plexweb_clients
-                and device.product == "Plex Web"
-            ):
-                ignored_clients.add(device.machineIdentifier)
-                if device.machineIdentifier not in self._known_clients:
-                    _LOGGER.debug(
-                        "Ignoring %s %s: %s",
-                        "Plex Web",
-                        source,
-                        device.machineIdentifier,
-                    )
-                return
-
             if device.machineIdentifier not in (
                 self._created_clients | ignored_clients | new_clients
             ):
@@ -585,11 +568,6 @@ class PlexServer:
     def option_monitored_users(self):
         """Return dict of monitored users option."""
         return self.options[MP_DOMAIN].get(CONF_MONITORED_USERS, {})
-
-    @property
-    def option_ignore_plexweb_clients(self):
-        """Return ignore_plex_web_clients option."""
-        return self.options[MP_DOMAIN].get(CONF_IGNORE_PLEX_WEB_CLIENTS, False)
 
     @property
     def library(self):

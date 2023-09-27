@@ -8,7 +8,6 @@ import requests_mock
 
 from homeassistant.components.plex.const import (
     CONF_IGNORE_NEW_SHARED_USERS,
-    CONF_IGNORE_PLEX_WEB_CLIENTS,
     CONF_MONITORED_USERS,
     CONF_SERVER,
     DOMAIN,
@@ -159,25 +158,3 @@ async def test_mark_sessions_idle(
 
     sensor = hass.states.get("sensor.plex_plex_server_1")
     assert sensor.state == "0"
-
-
-async def test_ignore_plex_web_client(
-    hass: HomeAssistant, entry, setup_plex_server
-) -> None:
-    """Test option to ignore Plex Web clients."""
-    OPTIONS = copy.deepcopy(DEFAULT_OPTIONS)
-    OPTIONS[Platform.MEDIA_PLAYER][CONF_IGNORE_PLEX_WEB_CLIENTS] = True
-    entry.options = OPTIONS
-
-    mock_plex_server = await setup_plex_server(
-        config_entry=entry, client_type="plexweb", disable_clients=True
-    )
-    await wait_for_debouncer(hass)
-
-    active_sessions = mock_plex_server._plex_server.sessions()
-    sensor = hass.states.get("sensor.plex_plex_server_1")
-    assert sensor.state == str(len(active_sessions))
-
-    media_players = hass.states.async_entity_ids("media_player")
-
-    assert len(media_players) == int(sensor.state) - 1
